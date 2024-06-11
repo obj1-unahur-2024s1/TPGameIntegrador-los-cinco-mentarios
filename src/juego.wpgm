@@ -1,23 +1,9 @@
 import wollok.game.*
-import nave.*
+import juego.*
+import personajes.*
 
 program abc {
 	
-	game.width(30)
-	game.height(15)
-	
-	game.boardGround("background.png")
-	
-	game.addVisualCharacter(nave)
-	game.addVisual(meteoro)
-	
-	//Moverse con las flechas
-	//Para que el juego me lea las imagenes las tuve que poner en el src
-	//No sabria como hacer que use las de assets
-	
-	keyboard.enter().onPressDo {nave.disparar()}	
-	
+	juego.iniciar()
 	game.start()
-	console.println('Hello Wollok')
-
 }

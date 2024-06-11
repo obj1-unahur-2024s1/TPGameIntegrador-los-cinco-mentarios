@@ -1,9 +1,9 @@
 import wollok.game.*
 
 object nave {
-	var property position = game.origin()
+	var property position = game.at(13, 0)
 	
-	method image() = "playerShip1_blue.png"
+	method image() = "assets/Naves/playerShip1_blue.png"
 	
 	method arriba(){
 		position = position.up(1)
@@ -22,39 +22,29 @@ object nave {
 		const laserClase = new Laser()
 		game.addVisual(laserClase)
 		game.onTick(100, "laser", {laserClase.arriba()})
-		game.onCollideDo(meteoro, {a => meteoro.chocar()})
-		game.schedule(1200, {laserClase.remover()})
+		game.onCollideDo(laserClase, {algo => algo.chocar()})
+		game.schedule(1500, {laserClase.remover()})
 	}
 }
 
-object meteoro {
-	var property position = game.at(8,10)
+class Meteoro {
+	var property position
 	
-	method image() = "meteorBrown_big1.png"
+	method image() = "assets/Meteors/meteorBrown_big1.png"
 	method chocar(){
 		game.say(self,"Me diste!")
-
+		game.schedule(500, {game.removeVisual(self)})
 	}
 }
 
 class Laser {
 	var property position = nave.position().up(2)
 	
-	method image() = "laserGreen10.png"
+	method image() = "assets/Lasers/laserGreen10.png"
 	method arriba(){
 		position = position.up(1)
+		
 	}
-	
-	method remover(){
-		game.removeVisual(self)
-	}
-	
-}
-
-object choque {
-	var property position = meteoro.position()
-	
-	method image() = "laserGreen14.png"
 	
 	method remover(){
 		game.removeVisual(self)

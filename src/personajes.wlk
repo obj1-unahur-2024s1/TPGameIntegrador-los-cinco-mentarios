@@ -1,29 +1,15 @@
 import wollok.game.*
 import Laser.*
 import Meteoro.*
+import Nave.*
 
-object naveInicial {
-	var property position = game.at(13, 0)
+object naveInicial inherits Nave {
 	
-	method image() = "assets/Naves/playerShip1_blue.png"
-	
-	method arriba(){
-		position = position.up(1)
+	override method image(){
+		return "assets/Naves/playerShip1_blue.png"
 	}
 	
-	method abajo(){
-		position = position.down(1)
-	}
-	
-	method izquierda(){
-		position = position.left(1)
-	}
-	
-	method derecha(){
-		position = position.right(1)
-	}
-	
-	method disparar(){
+	override method disparar(){
 		const laser = new Laser(unaNave=self)
 		game.addVisual(laser)
 		game.onTick(100, "laser", {laser.arriba()})

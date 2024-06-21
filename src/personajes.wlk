@@ -17,3 +17,15 @@ object naveInicial inherits Nave {
 		//game.schedule(100, {laser.remover()})
 	}
 }
+
+object startGame{
+	var property position = game.at(4,5)
+	
+	method image() = "assets/start-game.png"
+}
+
+object gameOver{
+	var property position = game.at(4,4)
+	
+	method image() = "assets/game-over.png"
+}

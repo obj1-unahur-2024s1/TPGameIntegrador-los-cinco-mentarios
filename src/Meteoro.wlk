@@ -1,7 +1,9 @@
 import wollok.game.*
+import juego.*
 
 class Meteoro {
 	var property position
+	var property meChocaron = false
 	
 	method image(){
 		return ""
@@ -9,7 +11,9 @@ class Meteoro {
 	
 	method chocar(){
 		game.say(self,"!Me diste!")
+		meChocaron = true
 		game.schedule(500, {game.removeVisual(self)})
+		juego.finDelJuego()
 	}
 }
 

@@ -46,6 +46,7 @@ object juego{
 	}
 	
 	method todosMeteorosChocados() = meteoros.all({unMeteoro => unMeteoro.meChocaron()})
+	
 	method finDelJuego(){
 		if(self.todosMeteorosChocados())
 		{

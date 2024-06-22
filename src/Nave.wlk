@@ -1,6 +1,7 @@
 import wollok.game.*
 
 class Nave {
+	var property vida = 3
 	var property position = game.at(13, 0)
 	
 	method image(){
@@ -25,4 +26,8 @@ class Nave {
 	
 	method disparar(){}
 	
+	method chocar(){
+		vida = self.vida() - 1
+		game.say(self,"¡Impacto recibido!")
+	}
 }

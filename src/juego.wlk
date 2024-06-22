@@ -2,6 +2,7 @@ import wollok.game.*
 import personajes.*
 import Laser.*	
 import Meteoro.*
+import Nave.*
 
 object juego{
 	
@@ -10,6 +11,8 @@ object juego{
 	const meteoro3 = new MeteoroMediano(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
 	const meteoro4 = new MeteoroGrande(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
 	const meteoro5 = new MeteoroMediano(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
+	
+	const naveInicial = new Nave()
 	
 	const meteoros = [meteoro1,meteoro2,meteoro3,meteoro4,meteoro5]
 	
@@ -42,8 +45,11 @@ object juego{
 		game.removeVisual(startGame)
 		self.loadVisuals()
 		self.loadKeys()
+		game.onCollideDo(naveInicial, {algo => self.eliminarUnaVida()}) //No sabia donde meterlo
 		//game.start()
 	}
+	
+	method agregarMeteoro(unMeteoro) {meteoros.add(unMeteoro)}
 	
 	method todosMeteorosChocados() = meteoros.all({unMeteoro => unMeteoro.meChocaron()})
 	
@@ -54,5 +60,10 @@ object juego{
 			game.addVisual(gameOver)
 		}
 		
+	}
+	
+	method eliminarUnaVida(){
+		naveInicial.disminuirUnaVida()
+		self.finDelJuego()
 	}
 }

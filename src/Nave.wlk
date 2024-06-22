@@ -1,11 +1,12 @@
 import wollok.game.*
+import Laser.*
 
 class Nave {
 	var property vida = 3
 	var property position = game.at(13, 0)
 	
 	method image(){
-		return ""
+		return "assets/Naves/playerShip1_blue.png"
 	}
 	
 	method arriba(){
@@ -24,12 +25,25 @@ class Nave {
 		position = position.right(1)
 	}
 	
-	method disparar(){}
+	method disminuirUnaVida(){
+		vida = vida - 1
+	}
 	
+	method disparar(){
+		const laser = new Laser(unaNave=self)
+		game.addVisual(laser)
+		game.onTick(100, "laser", {laser.arriba()})
+		game.onCollideDo(laser, {algo => algo.chocar()})
+		//game.schedule(100, {laser.remover()})
+	}
+	
+	/* 
 	method chocar(){
 		if(self.vida() != 0){
 			vida = self.vida() - 1
 			game.say(self,"¡Impacto recibido!")
 		}
 	}
+	* 
+	*/
 }

@@ -3,6 +3,7 @@ import Laser.*
 import Meteoro.*
 import Nave.*
 
+/* 
 object naveInicial inherits Nave {
 	
 	override method image(){
@@ -17,7 +18,7 @@ object naveInicial inherits Nave {
 		//game.schedule(100, {laser.remover()})
 	}
 }
-
+*/
 object startGame{
 	var property position = game.at(4,5)
 	

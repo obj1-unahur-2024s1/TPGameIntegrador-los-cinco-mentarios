@@ -1,5 +1,6 @@
 import wollok.game.*
 import juego.*
+import personajes.*
 
 class Meteoro {
 	var property position
@@ -44,10 +45,10 @@ class MeteoroMediano inherits Meteoro {
 	}
 	
 	override method chocar(){
-		super()
         const meteoroPequenio = new MeteoroPequenio(position = self.position())
         game.addVisual(meteoroPequenio)
         game.onTick(500, "meteoroPequenio", {meteoroPequenio.abajo()})
+        super()
     }	
 }
 
@@ -58,10 +59,10 @@ class MeteoroGrande inherits Meteoro {
 	}
 	
 	override method chocar(){
-		super()
 		const meteoroMediano = new MeteoroMediano(position = self.position())
         game.addVisual(meteoroMediano)
         game.onTick(1000, "meteoroMediano", {meteoroMediano.abajo()})
+        super()
 	}
 	
 }

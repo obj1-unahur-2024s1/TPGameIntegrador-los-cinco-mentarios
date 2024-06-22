@@ -45,19 +45,23 @@ class MeteoroMediano inherits Meteoro {
 	
 	override method chocar(){
 		super()
-		
         const meteoroPequenio = new MeteoroPequenio(position = self.position())
         game.addVisual(meteoroPequenio)
-        game.onTick(100, "meteoroPequenio", {meteoroPequenio.abajo()})
-        //game.schedule(0, {meteoroPequenio.moverHacia(meteoroPequenio, naveInicial.position())})
-	}
-	
+        game.onTick(500, "meteoroPequenio", {meteoroPequenio.abajo()})
+    }	
 }
 
 class MeteoroGrande inherits Meteoro {
 	
 	override method image(){
 		return "assets/Meteors/MeteorBrown_big1.png"
+	}
+	
+	override method chocar(){
+		super()
+		const meteoroMediano = new MeteoroMediano(position = self.position())
+        game.addVisual(meteoroMediano)
+        game.onTick(1000, "meteoroMediano", {meteoroMediano.abajo()})
 	}
 	
 }

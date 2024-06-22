@@ -27,7 +27,9 @@ class Nave {
 	method disparar(){}
 	
 	method chocar(){
-		vida = self.vida() - 1
-		game.say(self,"¡Impacto recibido!")
+		if(self.vida() != 0){
+			vida = self.vida() - 1
+			game.say(self,"¡Impacto recibido!")
+		}
 	}
 }

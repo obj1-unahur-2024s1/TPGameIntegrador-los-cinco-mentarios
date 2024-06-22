@@ -1,6 +1,5 @@
 import wollok.game.*
-import personajes.*
-import Laser.*	
+import Otros.*	
 import Meteoro.*
 import Nave.*
 
@@ -12,20 +11,22 @@ object juego{
 	const meteoro4 = new MeteoroGrande(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
 	const meteoro5 = new MeteoroMediano(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
 	
+	var numVidasNave = new Num(numero=3)
+	
 	const naveInicial = new Nave()
 	
 	const meteoros = [meteoro1,meteoro2,meteoro3,meteoro4,meteoro5]
 	
 	method loadVisuals(){		
-		//game.width(20)
-		//game.height(15)
-		//game.boardGround("assets/background.png")
 		game.addVisualCharacter(naveInicial)
 		game.addVisual(meteoro1)
 		game.addVisual(meteoro2)
 		game.addVisual(meteoro3)
 		game.addVisual(meteoro4)
 		game.addVisual(meteoro5)
+		game.addVisual(numVidasNave)
+		game.addVisual(xMenu)
+		game.addVisual(naveHud)
 	}
 	
 	method loadKeys(){
@@ -45,8 +46,7 @@ object juego{
 		game.removeVisual(startGame)
 		self.loadVisuals()
 		self.loadKeys()
-		game.onCollideDo(naveInicial, {algo => self.eliminarUnaVida()}) //No sabia donde meterlo
-		//game.start()
+		game.onCollideDo(naveInicial, {algo => self.eliminarUnaVida()}) 
 	}
 	
 	method agregarMeteoro(unMeteoro) {meteoros.add(unMeteoro)}
@@ -64,6 +64,11 @@ object juego{
 	
 	method eliminarUnaVida(){
 		naveInicial.disminuirUnaVida()
+		self.avanzarNumero()
 		self.finDelJuego()
+	}
+	
+	method avanzarNumero(){
+		numVidasNave = numVidasNave.avanzar()
 	}
 }

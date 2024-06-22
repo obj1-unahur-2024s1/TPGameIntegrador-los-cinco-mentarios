@@ -1,6 +1,6 @@
 import wollok.game.*
 import juego.*
-import personajes.*
+import Otros.*
 
 program NavesGame {
 	juego.iniciar()

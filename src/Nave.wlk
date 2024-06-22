@@ -34,16 +34,7 @@ class Nave {
 		game.addVisual(laser)
 		game.onTick(100, "laser", {laser.arriba()})
 		game.onCollideDo(laser, {algo => algo.chocar()})
-		//game.schedule(100, {laser.remover()})
+		
 	}
-	
-	/* 
-	method chocar(){
-		if(self.vida() != 0){
-			vida = self.vida() - 1
-			game.say(self,"¡Impacto recibido!")
-		}
-	}
-	* 
-	*/
+
 }

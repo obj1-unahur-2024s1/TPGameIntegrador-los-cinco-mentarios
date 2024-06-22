@@ -1,6 +1,5 @@
 import wollok.game.*
 import juego.*
-import personajes.*
 
 class Meteoro {
 	var property position

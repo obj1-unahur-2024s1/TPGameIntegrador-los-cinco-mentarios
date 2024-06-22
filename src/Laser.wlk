@@ -16,7 +16,7 @@ class Laser {
 	}
 	
 	method chocar(){
-		game.say(self,"!Impacto!")
+		game.say(self,"¡Impacto!")
 		game.schedule(100, {game.removeVisual(self)})
 	}
 }

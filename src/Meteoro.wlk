@@ -10,7 +10,7 @@ class Meteoro {
 	}
 	
 	method chocar(){
-		game.say(self,"!Me diste!")
+		game.say(self,"¡Me diste!")
 		meChocaron = true
 		game.schedule(500, {game.removeVisual(self)})
 		juego.finDelJuego()

@@ -2,15 +2,15 @@ import wollok.game.*
 import juego.*
 
 object startGame{
-	var property position = game.at(4,5)
+	var property position = game.at(2,2)
 	
-	method image() = "assets/start-game.png"
+	method image() = "assets/startGame.png"
 }
 
 object gameOver{
-	var property position = game.at(4,4)
+	var property position = game.at(2,2)
 	
-	method image() = "assets/game-over.png"
+	method image() = "assets/gameOver.png"
 }
 
 class Num{

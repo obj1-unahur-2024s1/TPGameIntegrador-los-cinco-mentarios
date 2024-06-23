@@ -3,7 +3,7 @@ import juego.*
 
 class Meteoro {
 	var property position
-	var property meChocaron = false
+	var property meDestruyeron = false
 	
 	method image(){
 		return ""
@@ -11,8 +11,9 @@ class Meteoro {
 	
 	method chocar(){
 		game.say(self,"¡Me diste!")
-		meChocaron = true
+		meDestruyeron = true
 		game.schedule(500, {game.removeVisual(self)})
+		juego.quitarUnMeteoro()
 		juego.finDelJuego()
 	}
 	

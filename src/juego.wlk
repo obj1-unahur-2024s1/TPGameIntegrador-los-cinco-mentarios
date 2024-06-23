@@ -5,28 +5,40 @@ import Nave.*
 
 object juego{
 	
-	const meteoro1 = new MeteoroPequenio(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
-	const meteoro2 = new MeteoroChico(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
+	const meteoro1 = new MeteoroChico(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
+	const meteoro2 = new MeteoroMediano(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
 	const meteoro3 = new MeteoroMediano(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
 	const meteoro4 = new MeteoroGrande(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
-	const meteoro5 = new MeteoroMediano(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
+	const meteoro5 = new MeteoroGrande(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
+	const meteoro6 = new MeteoroGrande(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
 	
-	var numVidasNave = new Num(numero=3)
+	const meteoros = [meteoro1,meteoro2,meteoro3,meteoro4,meteoro5,meteoro6]
+	
+	var numVidasNave = new Num(numero=3, position = game.at(2,14))
+	var numCantMeteoros = new Num (numero = 5, position = game.at(19,14))
 	
 	const naveInicial = new Nave()
 	
-	const meteoros = [meteoro1,meteoro2,meteoro3,meteoro4,meteoro5]
+	const xMenu1 = new XMenu(position = game.at(1, 14))
+	const xMenu2 = new XMenu(position = game.at(18, 14))
 	
 	method loadVisuals(){		
 		game.addVisualCharacter(naveInicial)
+		meteoros.forEach({unMeteoro => game.addVisual(unMeteoro)})
+		/*
 		game.addVisual(meteoro1)
 		game.addVisual(meteoro2)
 		game.addVisual(meteoro3)
 		game.addVisual(meteoro4)
 		game.addVisual(meteoro5)
+		game.addVisual(meteoro6)
+		*/
 		game.addVisual(numVidasNave)
-		game.addVisual(xMenu)
+		game.addVisual(numCantMeteoros)
+		game.addVisual(xMenu1)
+		game.addVisual(xMenu2)
 		game.addVisual(naveHud)
+		game.addVisual(meteoroHud)
 	}
 	
 	method loadKeys(){
@@ -51,10 +63,10 @@ object juego{
 	
 	method agregarMeteoro(unMeteoro) {meteoros.add(unMeteoro)}
 	
-	method todosMeteorosChocados() = meteoros.all({unMeteoro => unMeteoro.meChocaron()})
+	method todosMeteorosChocados() = meteoros.all({unMeteoro => unMeteoro.meDestruyeron()})
 	
 	method finDelJuego(){
-		if(self.todosMeteorosChocados() or naveInicial.vida() == 0)
+		if(self.todosMeteorosChocados() or naveInicial.vida() == 0 or numCantMeteoros.numero() == 0)
 		{
 			game.clear()
 			game.addVisual(gameOver)
@@ -64,11 +76,17 @@ object juego{
 	
 	method eliminarUnaVida(){
 		naveInicial.disminuirUnaVida()
-		self.avanzarNumero()
+		self.avanzarNumeroVidas()
 		self.finDelJuego()
 	}
 	
-	method avanzarNumero(){
+	method avanzarNumeroVidas(){
 		numVidasNave = numVidasNave.avanzar()
+	}
+	
+	method cantidadMeteorosSinDestruir() = meteoros.count({unMeteoro =>not unMeteoro.meDestruyeron()})
+	
+	method quitarUnMeteoro(){
+		numCantMeteoros = numCantMeteoros.avanzar()
 	}
 }

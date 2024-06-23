@@ -22,6 +22,8 @@ object juego{
 	const xMenu1 = new XMenu(position = game.at(1, 14))
 	const xMenu2 = new XMenu(position = game.at(18, 14))
 	
+	var todoCargado = false
+	
 	method loadVisuals(){		
 		game.addVisualCharacter(naveInicial)
 		meteoros.forEach({unMeteoro => game.addVisual(unMeteoro)})
@@ -55,10 +57,15 @@ object juego{
 	}
 	
 	method cargarTodo(){
-		game.removeVisual(startGame)
-		self.loadVisuals()
-		self.loadKeys()
-		game.onCollideDo(naveInicial, {algo => self.eliminarUnaVida()}) 
+		if( not todoCargado )
+		{
+			game.removeVisual(startGame)
+			self.loadVisuals()
+			self.loadKeys()
+			game.onCollideDo(naveInicial, {algo => self.eliminarUnaVida()})
+			todoCargado = true 
+		}
+		
 	}
 	
 	method agregarMeteoro(unMeteoro) {meteoros.add(unMeteoro)}

@@ -24,6 +24,10 @@ object juego{
 	
 	var todoCargado = false
 	
+	const sonidoIntro = game.sound("assets/Effects/game-music-loop-3-144252.mp3")
+	const sonidoJuego = game.sound("assets/Effects/epic-game-music-by-kris-klavenes-3-mins-49771.mp3")
+	
+	
 	method loadVisuals(){		
 		game.addVisualCharacter(naveInicial)
 		meteoros.forEach({unMeteoro => game.addVisual(unMeteoro)})
@@ -44,27 +48,40 @@ object juego{
 	}
 	
 	method loadKeys(){
+		
+				
 		keyboard.space().onPressDo {naveInicial.disparar()}
+		
+		
 	}
 	
 	method iniciar(){
+		
+		
 		game.width(20)
 		game.height(15)
 		game.boardGround("assets/background.png")
 		game.addVisual(startGame)
+		game.schedule(100,{sonidoIntro.play()})
 		keyboard.enter().onPressDo {self.cargarTodo()}
 		game.start()
+		
+		
+		
 	}
 	
 	method cargarTodo(){
 		if( not todoCargado )
 		{
+			sonidoIntro.stop()
 			game.removeVisual(startGame)
+			sonidoJuego.play()
 			self.loadVisuals()
 			self.loadKeys()
 			game.onCollideDo(naveInicial, {algo => self.eliminarUnaVida()})
 			todoCargado = true 
 		}
+		
 		
 	}
 	
@@ -76,10 +93,14 @@ object juego{
 		if(self.todosMeteorosChocados() or naveInicial.vida() == 0 or numCantMeteoros.numero() == 0)
 		{
 			game.clear()
+			sonidoJuego.stop()
+			game.schedule(100,{sonidoIntro.play()})
 			game.addVisual(gameOver)
+			
 		}
 		
 	}
+	
 	
 	method eliminarUnaVida(){
 		naveInicial.disminuirUnaVida()

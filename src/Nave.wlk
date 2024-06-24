@@ -5,6 +5,8 @@ class Nave {
 	var property vida = 3
 	var property position = game.at(9, 0)
 	
+	
+	
 	method image(){
 		return "assets/Naves/playerShip1_blue.png"
 	}
@@ -27,12 +29,16 @@ class Nave {
 	
 	method disminuirUnaVida(){
 		vida = vida - 1
+		
 	}
 	
 	method disparar(){
 		const laser = new Laser(unaNave=self)
+		const audioLaser = game.sound("assets/Lasers/lasergun-35817 (mp3cut.net).mp3")
+		
 		game.addVisual(laser)
-		game.onTick(100, "laser", {laser.arriba()})
+		game.onTick(100, "laser",{laser.arriba()})
+		game.schedule(100,{audioLaser.play()})	
 		game.onCollideDo(laser, {algo => algo.chocar()})
 		
 	}

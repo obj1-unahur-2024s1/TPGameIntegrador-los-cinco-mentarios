@@ -4,6 +4,8 @@ import juego.*
 class Meteoro {
 	var property position
 	var property meDestruyeron = false
+	const sonidoRoturaMeteoro = game.sound("assets/Meteors/small-rock-break-194553 (mp3cut.net).mp3")
+	
 	
 	method image(){
 		return ""
@@ -11,6 +13,7 @@ class Meteoro {
 	
 	method chocar(){
 		game.say(self,"¡Me diste!")
+		sonidoRoturaMeteoro.play()
 		meDestruyeron = true
 		game.schedule(500, {game.removeVisual(self)})
 		juego.quitarUnMeteoro()

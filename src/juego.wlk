@@ -13,11 +13,10 @@ object juego{
 	const meteoro6 = new MeteoroGrande(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
 	
 	const meteoros = [meteoro1,meteoro2,meteoro3,meteoro4,meteoro5,meteoro6]
-	
-	var numVidasNave = new Num(numero=3, position = game.at(2,14))
 	var numCantMeteoros = new Num (numero = 5, position = game.at(19,14))
 	
 	const naveInicial = new Nave()
+	var numVidasNave = new Num(numero=3, position = game.at(2,14))
 	
 	const xMenu1 = new XMenu(position = game.at(1, 14))
 	const xMenu2 = new XMenu(position = game.at(18, 14))
@@ -31,14 +30,6 @@ object juego{
 	method loadVisuals(){		
 		game.addVisualCharacter(naveInicial)
 		meteoros.forEach({unMeteoro => game.addVisual(unMeteoro)})
-		/*
-		game.addVisual(meteoro1)
-		game.addVisual(meteoro2)
-		game.addVisual(meteoro3)
-		game.addVisual(meteoro4)
-		game.addVisual(meteoro5)
-		game.addVisual(meteoro6)
-		*/
 		game.addVisual(numVidasNave)
 		game.addVisual(numCantMeteoros)
 		game.addVisual(xMenu1)
@@ -48,16 +39,10 @@ object juego{
 	}
 	
 	method loadKeys(){
-		
-				
 		keyboard.space().onPressDo {naveInicial.disparar()}
-		
-		
 	}
 	
 	method iniciar(){
-		
-		
 		game.width(20)
 		game.height(15)
 		game.boardGround("assets/background.png")
@@ -65,14 +50,10 @@ object juego{
 		game.schedule(100,{sonidoIntro.play()})
 		keyboard.enter().onPressDo {self.cargarTodo()}
 		game.start()
-		
-		
-		
 	}
 	
 	method cargarTodo(){
-		if( not todoCargado )
-		{
+		if( not todoCargado ){
 			sonidoIntro.stop()
 			game.removeVisual(startGame)
 			sonidoJuego.play()
@@ -81,24 +62,21 @@ object juego{
 			game.onCollideDo(naveInicial, {algo => self.eliminarUnaVida()})
 			todoCargado = true 
 		}
-		
-		
 	}
 	
-	method agregarMeteoro(unMeteoro) {meteoros.add(unMeteoro)}
+	method agregarMeteoro(unMeteoro) {
+		meteoros.add(unMeteoro)
+	}
 	
 	method todosMeteorosChocados() = meteoros.all({unMeteoro => unMeteoro.meDestruyeron()})
 	
 	method finDelJuego(){
-		if(self.todosMeteorosChocados() or naveInicial.vida() == 0 or numCantMeteoros.numero() == 0)
-		{
+		if(self.todosMeteorosChocados() or naveInicial.vida() == 0 or numCantMeteoros.numero() == 0){
 			game.clear()
 			sonidoJuego.stop()
 			game.schedule(100,{sonidoOutro.play()})
 			game.addVisual(gameOver)
-			
 		}
-		
 	}
 	
 	

@@ -26,7 +26,7 @@ object juego{
 	
 	const sonidoIntro = game.sound("assets/Effects/game-music-loop-3-144252.mp3")
 	const sonidoJuego = game.sound("assets/Effects/epic-game-music-by-kris-klavenes-3-mins-49771.mp3")
-	
+	const sonidoOutro = game.sound("assets/Effects/game-music-loop-3-144252.mp3")	
 	
 	method loadVisuals(){		
 		game.addVisualCharacter(naveInicial)
@@ -94,7 +94,7 @@ object juego{
 		{
 			game.clear()
 			sonidoJuego.stop()
-			game.schedule(100,{sonidoIntro.play()})
+			game.schedule(100,{sonidoOutro.play()})
 			game.addVisual(gameOver)
 			
 		}

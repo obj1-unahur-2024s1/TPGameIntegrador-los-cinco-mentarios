@@ -3,9 +3,7 @@ import Laser.*
 
 class Nave {
 	var property vida = 3
-	var property position = game.at(9, 0)
-	
-	
+	var property position = game.at(9, 0)	
 	
 	method image(){
 		return "assets/Naves/playerShip1_blue.png"
@@ -28,8 +26,9 @@ class Nave {
 	}
 	
 	method disminuirUnaVida(){
+		const sonidoPerdidaVida = game.sound("assets/Naves/videogame-death-sound-43894.mp3")
 		vida = vida - 1
-		
+		sonidoPerdidaVida.play()
 	}
 	
 	method disparar(){

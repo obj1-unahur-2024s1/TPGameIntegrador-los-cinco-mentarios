@@ -3,17 +3,30 @@ import Otros.*
 import Meteoro.*
 import Nave.*
 
-object juego{
-	
+object nivel1 {
 	const meteoro1 = new MeteoroChico(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
 	const meteoro2 = new MeteoroMediano(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
+	const meteoro3 = new MeteoroGrande(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
+	
+	var property meteoros = [meteoro1,meteoro2,meteoro3]
+	var property numCantMeteoros = new Num (numero = 5, position = game.at(19,14))
+}
+
+object nivel2 {
+	const meteoro1 = new MeteoroChico(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
+	const meteoro2 = new MeteoroChico(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
 	const meteoro3 = new MeteoroMediano(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
 	const meteoro4 = new MeteoroGrande(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
 	const meteoro5 = new MeteoroGrande(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
-	const meteoro6 = new MeteoroGrande(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
 	
-	const meteoros = [meteoro1,meteoro2,meteoro3,meteoro4,meteoro5,meteoro6]
-	var numCantMeteoros = new Num (numero = 5, position = game.at(19,14))
+	var property meteoros = [meteoro1,meteoro2,meteoro3, meteoro4, meteoro5]
+	var property numCantMeteoros = new Num (numero = 9, position = game.at(19,14))
+}
+
+object juego{
+	
+	var nivelActual = nivel1
+	var esNivel2 = false
 	
 	const naveInicial = new Nave()
 	var numVidasNave = new Num(numero=3, position = game.at(2,14))
@@ -29,9 +42,9 @@ object juego{
 	
 	method loadVisuals(){		
 		game.addVisualCharacter(naveInicial)
-		meteoros.forEach({unMeteoro => game.addVisual(unMeteoro)})
+		nivelActual.meteoros().forEach({unMeteoro => game.addVisual(unMeteoro)})
 		game.addVisual(numVidasNave)
-		game.addVisual(numCantMeteoros)
+		game.addVisual(nivelActual.numCantMeteoros())
 		game.addVisual(xMenu1)
 		game.addVisual(xMenu2)
 		game.addVisual(naveHud)
@@ -39,7 +52,7 @@ object juego{
 	}
 	
 	method loadKeys(){
-		keyboard.space().onPressDo {naveInicial.disparar()}
+		keyboard.space().onPressDo{naveInicial.disparar()}
 	}
 	
 	method iniciar(){
@@ -48,37 +61,56 @@ object juego{
 		game.boardGround("assets/background.png")
 		game.addVisual(startGame)
 		game.schedule(100,{sonidoIntro.play()})
-		keyboard.enter().onPressDo {self.cargarTodo()}
+		keyboard.enter().onPressDo{self.cargarTodo()}
 		game.start()
 	}
 	
-	method cargarTodo(){
-		if( not todoCargado ){
-			sonidoIntro.stop()
-			game.removeVisual(startGame)
-			sonidoJuego.play()
-			self.loadVisuals()
-			self.loadKeys()
-			game.onCollideDo(naveInicial, {algo => self.eliminarUnaVida()})
-			todoCargado = true 
-		}
-	}
+	method cargarNivel() {
+        game.clear()
+        self.loadVisuals()
+    }
+
+    method cargarTodo() {
+        if (not todoCargado) {
+            sonidoIntro.stop()
+            game.removeVisual(startGame)
+            sonidoJuego.play()
+            self.cargarNivel()
+            self.loadKeys()
+            game.onCollideDo(naveInicial, { algo => self.eliminarUnaVida() })
+            todoCargado = true
+        }
+    }
 	
 	method agregarMeteoro(unMeteoro) {
-		meteoros.add(unMeteoro)
+		nivelActual.meteoros().add(unMeteoro)
 	}
 	
-	method todosMeteorosChocados() = meteoros.all({unMeteoro => unMeteoro.meDestruyeron()})
+	method todosMeteorosChocados() = nivelActual.meteoros().all({unMeteoro => unMeteoro.meDestruyeron()})
 	
 	method finDelJuego(){
-		if(self.todosMeteorosChocados() or naveInicial.vida() == 0 or numCantMeteoros.numero() == 0){
-			game.clear()
-			sonidoJuego.stop()
-			game.schedule(100,{sonidoOutro.play()})
-			game.addVisual(gameOver)
+		if(naveInicial.vida() == 0){
+			self.clearGameOver()
+		}
+		if(nivelActual.numCantMeteoros().numero() == 0){
+			nivelActual = nivel2
+			esNivel2 = true
+			self.cargarNivel()
+            self.loadKeys()
+            game.onCollideDo(naveInicial, { algo => self.eliminarUnaVida() })
+            todoCargado = true
+		}
+		if (esNivel2 and nivelActual.numCantMeteoros().numero() == 0) {
+			self.clearGameOver()
 		}
 	}
 	
+	method clearGameOver(){
+		game.clear()
+		sonidoJuego.stop()
+		game.schedule(100,{sonidoOutro.play()})
+		game.addVisual(gameOver)
+	}
 	
 	method eliminarUnaVida(){
 		naveInicial.disminuirUnaVida()
@@ -90,9 +122,9 @@ object juego{
 		numVidasNave = numVidasNave.avanzar()
 	}
 	
-	method cantidadMeteorosSinDestruir() = meteoros.count({unMeteoro =>not unMeteoro.meDestruyeron()})
+	method cantidadMeteorosSinDestruir() = nivelActual.meteoros().count({unMeteoro =>not unMeteoro.meDestruyeron()})
 	
 	method quitarUnMeteoro(){
-		numCantMeteoros = numCantMeteoros.avanzar()
+		nivelActual.numCantMeteoros((nivelActual.numCantMeteoros().avanzar()))
 	}
 }

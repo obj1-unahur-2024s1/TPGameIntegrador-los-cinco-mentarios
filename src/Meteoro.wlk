@@ -6,7 +6,6 @@ class Meteoro {
 	var property meDestruyeron = false
 	const sonidoRoturaMeteoro = game.sound("assets/Meteors/small-rock-break-194553 (mp3cut.net).mp3")
 	
-	
 	method image(){
 		return ""
 	}

@@ -3,20 +3,38 @@ import Otros.*
 import Meteoro.*
 import Nave.*
 
+object nivel1 {
+	const meteoro1 = new MeteoroChico(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
+	const meteoro2 = new MeteoroMediano(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
+	const meteoro3 = new MeteoroGrande(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
+	
+	var property meteoros = [meteoro1,meteoro2,meteoro3]
+	var property numCantMeteoros = new Num (numero = 5, position = game.at(19,14))
+}
+
+object nivel2 {
+	const meteoro1 = new MeteoroChico(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
+	const meteoro2 = new MeteoroChico(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
+	const meteoro3 = new MeteoroMediano(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
+	const meteoro4 = new MeteoroGrande(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
+	const meteoro5 = new MeteoroGrande(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
+	
+	var property meteoros = [meteoro1,meteoro2,meteoro3, meteoro4, meteoro5]
+	var property numCantMeteoros = new Num (numero = 9, position = game.at(19,14))
+}
+
 object juego{
 	
-	var meteorosAAgregar = new MeteorosAgregar5()//Ver esto
-	
-	var numVidasNave = new Num(numero=3, position = game.at(2,14))
-	var numCantMeteoros = new Num (numero = 5, position = game.at(19,14))
+	var nivelActual = nivel1
+	var esNivel2 = false
 	
 	const naveInicial = new Nave()
+	var numVidasNave = new Num(numero=3, position = game.at(2,14))
 	
 	const xMenu1 = new XMenu(position = game.at(1, 14))
 	const xMenu2 = new XMenu(position = game.at(18, 14))
 	
 	var todoCargado = false
-	var estoyEnSegundoNivel = false
 	
 	const sonidoIntro = game.sound("assets/Effects/game-music-loop-3-144252.mp3")
 	const sonidoJuego = game.sound("assets/Effects/epic-game-music-by-kris-klavenes-3-mins-49771.mp3")
@@ -24,9 +42,9 @@ object juego{
 	
 	method loadVisuals(){		
 		game.addVisualCharacter(naveInicial)
-		self.agregar5MeteoroAlTablero()
+		nivelActual.meteoros().forEach({unMeteoro => game.addVisual(unMeteoro)})
 		game.addVisual(numVidasNave)
-		game.addVisual(numCantMeteoros)
+		game.addVisual(nivelActual.numCantMeteoros())
 		game.addVisual(xMenu1)
 		game.addVisual(xMenu2)
 		game.addVisual(naveHud)
@@ -34,60 +52,64 @@ object juego{
 	}
 	
 	method loadKeys(){
-		keyboard.space().onPressDo {naveInicial.disparar()}
+		keyboard.space().onPressDo{naveInicial.disparar()}
 	}
 	
 	method iniciar(){
-		
 		game.width(20)
 		game.height(15)
 		game.boardGround("assets/background.png")
 		game.addVisual(startGame)
 		game.schedule(100,{sonidoIntro.play()})
-		keyboard.enter().onPressDo {self.cargarTodo()}
+		keyboard.enter().onPressDo{self.cargarTodo()}
 		game.start()
-		
 	}
 	
-	method cargarTodo(){
-		if( not todoCargado )
-		{
-			sonidoIntro.stop()
-			game.removeVisual(startGame)
-			sonidoJuego.play()
-			self.loadVisuals()
-			self.loadKeys()
-			game.onCollideDo(naveInicial, {algo => self.eliminarUnaVida()})
-			todoCargado = true 
-		}
-		
-		
+	method cargarNivel() {
+        game.clear()
+        self.loadVisuals()
+    }
+
+    method cargarTodo() {
+        if (not todoCargado) {
+            sonidoIntro.stop()
+            game.removeVisual(startGame)
+            sonidoJuego.play()
+            self.cargarNivel()
+            self.loadKeys()
+            game.onCollideDo(naveInicial, { algo => self.eliminarUnaVida() })
+            todoCargado = true
+        }
+    }
+	
+	method agregarMeteoro(unMeteoro) {
+		nivelActual.meteoros().add(unMeteoro)
 	}
 	
-	method agregar5MeteoroAlTablero(){
-		meteorosAAgregar = new MeteorosAgregar5()
-		meteorosAAgregar.meteoros().forEach({unMeteoro => game.addVisual(unMeteoro)})
-	}
-	
-	method todosMeteorosChocados() = meteorosAAgregar.meteoros().all({unMeteoro => unMeteoro.meDestruyeron()})
+	method todosMeteorosChocados() = nivelActual.meteoros().all({unMeteoro => unMeteoro.meDestruyeron()})
 	
 	method finDelJuego(){
-		if(numCantMeteoros.numero() == 0 and (not estoyEnSegundoNivel))//Si entra a este IF esta en el primer nivel y destruyo los 5 meteoros
-		{
-			game.removeVisual(numCantMeteoros)
-			numCantMeteoros = new Num (numero = 9, position = game.at(19,14))
-			game.addVisual(numCantMeteoros)
-			self.agregar5MeteoroAlTablero()
-			self.agregar5MeteoroAlTablero()
-			estoyEnSegundoNivel = true		
+		if(naveInicial.vida() == 0){
+			self.clearGameOver()
 		}
-		if(naveInicial.vida() == 0 or (numCantMeteoros.numero() == 0 and estoyEnSegundoNivel))//Si entra a este IF destruyo los 9 meteoros del nivel 2
-		{
-			game.clear()
-			sonidoJuego.stop()
-			game.schedule(100,{sonidoOutro.play()})
-			game.addVisual(gameOver)
-		}		
+		if(nivelActual.numCantMeteoros().numero() == 0){
+			nivelActual = nivel2
+			esNivel2 = true
+			self.cargarNivel()
+            self.loadKeys()
+            game.onCollideDo(naveInicial, { algo => self.eliminarUnaVida() })
+            todoCargado = true
+		}
+		if (esNivel2 and nivelActual.numCantMeteoros().numero() == 0) {
+			self.clearGameOver()
+		}
+	}
+	
+	method clearGameOver(){
+		game.clear()
+		sonidoJuego.stop()
+		game.schedule(100,{sonidoOutro.play()})
+		game.addVisual(gameOver)
 	}
 	
 	method eliminarUnaVida(){
@@ -99,8 +121,10 @@ object juego{
 	method avanzarNumeroVidas(){
 		numVidasNave = numVidasNave.avanzar()
 	}
-
+	
+	method cantidadMeteorosSinDestruir() = nivelActual.meteoros().count({unMeteoro =>not unMeteoro.meDestruyeron()})
+	
 	method quitarUnMeteoro(){
-		numCantMeteoros = numCantMeteoros.avanzar()
+		nivelActual.numCantMeteoros((nivelActual.numCantMeteoros().avanzar()))
 	}
 }

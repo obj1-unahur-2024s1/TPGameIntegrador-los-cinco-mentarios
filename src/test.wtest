@@ -1,6 +1,53 @@
+import wollok.game.*
+import Otros.*	
+import Meteoro.*
+import Nave.*
+import Laser.*
 
-test "testX" {
-
-	assert.that(true)
-
+describe "Nave y meteoro" {
+	
+	const naveInicial = new Nave()
+	const meteoro1 = new MeteoroChico(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
+	const laser = new Laser(unaNave=naveInicial)
+	
+	test "Nave se mueve arriba" {
+		const posicionInicial = naveInicial.position()
+		naveInicial.arriba()
+		assert.equals(posicionInicial.up(1), naveInicial.position())
+	}
+	
+	test "Nave se mueve abajo" {
+		const posicionInicial = naveInicial.position()
+		naveInicial.abajo()
+		assert.equals(posicionInicial.down(1), naveInicial.position())
+	}
+	
+	test "Nave se mueve derecha" {
+		const posicionInicial = naveInicial.position()
+		naveInicial.derecha()
+		assert.equals(posicionInicial.right(1), naveInicial.position())
+	}
+	
+	test "Nave se mueve izquierda" {
+		const posicionInicial = naveInicial.position()
+		naveInicial.izquierda()
+		assert.equals(posicionInicial.left(1), naveInicial.position())
+	}
+	
+	test "Vida de nave inicial es 3" {
+		assert.equals(naveInicial.vida(), 3)
+	}
+	
+	test "Meteoro se mueve hacia abajo" {
+		const posicionInicial = meteoro1.position()
+		meteoro1.abajo()
+		assert.equals(posicionInicial.down(1), meteoro1.position())
+	}
+	
+	test "Meteoro se mueve hacia arriba" {
+		const posicionInicial = laser.position()
+		laser.arriba()
+		assert.equals(posicionInicial.up(1), laser.position())
+	}
+	
 }

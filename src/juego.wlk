@@ -3,7 +3,7 @@ import Otros.*
 import Meteoro.*
 import Nave.*
 
-object nivel1 {
+class Nivel1 {
 	const meteoro1 = new MeteoroChico(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
 	const meteoro2 = new MeteoroMediano(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
 	const meteoro3 = new MeteoroGrande(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
@@ -12,7 +12,7 @@ object nivel1 {
 	var property numCantMeteoros = new Num (numero = 5, position = game.at(19,14))
 }
 
-object nivel2 {
+class Nivel2 {
 	const meteoro1 = new MeteoroChico(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
 	const meteoro2 = new MeteoroChico(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
 	const meteoro3 = new MeteoroMediano(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
@@ -25,7 +25,7 @@ object nivel2 {
 
 object juego{
 	
-	var nivelActual = nivel1
+	var nivelActual = new Nivel1()
 	var esNivel2 = false
 	
 	const naveInicial = new Nave()
@@ -53,6 +53,7 @@ object juego{
 	
 	method loadKeys(){
 		keyboard.space().onPressDo{naveInicial.disparar()}
+		keyboard.r().onPressDo{self.reiniciarNivel()}
 	}
 	
 	method iniciar(){
@@ -68,6 +69,16 @@ object juego{
 	method cargarNivel() {
         game.clear()
         self.loadVisuals()
+    }
+    
+    method reiniciarNivel(){
+    	game.clear()
+    	if(esNivel2){nivelActual = new Nivel2()} else {nivelActual = new Nivel1()}
+    	numVidasNave = new Num(numero=3, position = game.at(2,14))
+    	naveInicial.vida(3)
+        self.loadVisuals()
+        self.loadKeys()
+        game.onCollideDo(naveInicial, { algo => self.eliminarUnaVida() })
     }
 
     method cargarTodo() {
@@ -93,7 +104,7 @@ object juego{
 			self.clearGameOver()
 		}
 		if(nivelActual.numCantMeteoros().numero() == 0){
-			nivelActual = nivel2
+			nivelActual = new Nivel2()
 			esNivel2 = true
 			self.cargarNivel()
             self.loadKeys()

@@ -49,3 +49,23 @@ object meteoroHud{
 	method image() = "assets/Meteors/meteorBrown_small2.png"
 	method chocar() {}
 }
+
+class ObjetoInvisible{
+	var property position
+	method image(){
+		return "assets/vacio.png"
+	}
+	method limiteDelJuego(){
+		if(juego.todosMeteorosChocados()){
+			juego.clearGameOver()
+		}
+	}
+	
+	/*
+	 * La idea de este objeto es para solucionar el tema de que nos quedemos sin meteoros, mi idea era instanciar toda la primer fila
+	 * con objetos "invisibles" y cuando los meteoros choquen con esta, que corra el metodo de arriba y revise si todos los meteoros
+	 * principales fueron destruidos. Y si es asi que termine el juego. El metodo es medio rebuscado pero serviria.
+	 * Diganme si se les ocurre una idea mas sencilla.
+	 */
+	method meChocoLaNave(){}
+}

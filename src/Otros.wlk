@@ -27,6 +27,7 @@ class Num{
 		if( numero == 0 ) {juego.finDelJuego()}
 		return siguienteNumero
 	}
+	method esMeteoro() = false
 }
 
 class XMenu{
@@ -34,6 +35,7 @@ class XMenu{
 	
 	method image() = "assets/UI/numeralX.png"
 	method chocar(){}
+	method esMeteoro() = false
 }
 
 object naveHud{
@@ -41,6 +43,7 @@ object naveHud{
 	
 	method image() = "assets/UI/playerLife1_blue.png"
 	method chocar() {}
+	method esMeteoro() = false
 }
 
 object meteoroHud{
@@ -48,6 +51,7 @@ object meteoroHud{
 	
 	method image() = "assets/Meteors/meteorBrown_small2.png"
 	method chocar() {}
+	method esMeteoro() = false
 }
 
 class ObjetoInvisible{

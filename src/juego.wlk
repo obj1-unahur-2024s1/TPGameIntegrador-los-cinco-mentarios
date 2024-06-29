@@ -56,6 +56,22 @@ object juego{
 		keyboard.r().onPressDo{self.reiniciarNivel()}
 	}
 	
+	method loadComportamiento(){
+		game.onCollideDo(naveInicial, { algo => self.eliminarUnaVida() })
+		game.onTick(1000, "VerificarMeteorosConVida", {self.verificarMeteoros()})
+	}
+	
+	method quedanMeteorosConVida(){
+		return game.allVisuals().filter({algo => algo.esMeteoro()}).isEmpty()
+	}
+	
+	method verificarMeteoros(){
+		if(self.quedanMeteorosConVida() and self.todosMeteorosChocados())
+		{
+			self.clearGameOver()
+		}
+	}
+	
 	method iniciar(){
 		game.width(20)
 		game.height(15)
@@ -78,7 +94,7 @@ object juego{
     	naveInicial.vida(3)
         self.loadVisuals()
         self.loadKeys()
-        game.onCollideDo(naveInicial, { algo => self.eliminarUnaVida() })
+        self.loadComportamiento()
     }
 
     method cargarTodo() {
@@ -88,7 +104,7 @@ object juego{
             sonidoJuego.play()
             self.cargarNivel()
             self.loadKeys()
-            game.onCollideDo(naveInicial, { algo => self.eliminarUnaVida() })
+            self.loadComportamiento()
             todoCargado = true
         }
     }
@@ -108,7 +124,7 @@ object juego{
 			esNivel2 = true
 			self.cargarNivel()
             self.loadKeys()
-            game.onCollideDo(naveInicial, { algo => self.eliminarUnaVida() })
+            self.loadComportamiento()
             todoCargado = true
 		}
 		if (esNivel2 and nivelActual.numCantMeteoros().numero() == 0) {

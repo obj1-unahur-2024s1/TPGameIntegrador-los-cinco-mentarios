@@ -22,6 +22,8 @@ class Meteoro {
 	method abajo(){
 		position = position.down(1)
 	}
+	
+	method esMeteoro() = true
 }
 
 class MeteoroPequenio inherits Meteoro {
@@ -50,6 +52,7 @@ class MeteoroMediano inherits Meteoro {
         const meteoroPequenio = new MeteoroPequenio(position = self.position())
         game.addVisual(meteoroPequenio)
         game.onTick(500, "meteoroPequenio", {meteoroPequenio.abajo()})
+        game.schedule(7000, {if(game.hasVisual(meteoroPequenio)){game.removeVisual(meteoroPequenio)}})
         super()
     }	
 }
@@ -63,7 +66,8 @@ class MeteoroGrande inherits Meteoro {
 	override method chocar(){
 		const meteoroMediano = new MeteoroMediano(position = self.position())
         game.addVisual(meteoroMediano)
-        game.onTick(1000, "meteoroMediano", {meteoroMediano.abajo()})
+        game.onTick(500, "meteoroMediano", {meteoroMediano.abajo()})
+        game.schedule(7000, {if(game.hasVisual(meteoroMediano)){game.removeVisual(meteoroMediano)}})
         super()
 	}
 	

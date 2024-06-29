@@ -41,6 +41,8 @@ class Nave {
 		game.onCollideDo(laser, {algo => algo.chocar()})
 		
 	}
+	
+	method esMeteoro() = false
 
 }
 

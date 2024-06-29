@@ -18,4 +18,6 @@ class Laser {
 		game.say(self,"¡Impacto!")
 		game.schedule(100, {game.removeVisual(self)})
 	}
+	
+	method esMeteoro() = false
 }

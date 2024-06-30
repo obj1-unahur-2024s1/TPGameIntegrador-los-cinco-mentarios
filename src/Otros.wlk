@@ -7,12 +7,23 @@ object startGame{
 	method image() = "assets/startGame.png"
 }
 
-object gameOver{
+object gameOverGanaste{
 	var property position = game.at(2,2)
 	
-	method image() = "assets/gameOver.png"
+	method image() = "assets/game-over-ganaste.png"
 }
 
+object gameOverMeteoros{
+	var property position = game.at(2,2)
+	
+	method image() = "assets/game-over-sinmeteoros.png"
+}
+
+object gameOverVidas{
+	var property position = game.at(2,2)
+	
+	method image() = "assets/game-over-sinvidas.png"
+}
 class Num{
 	var numero
 	var property position
@@ -52,24 +63,4 @@ object meteoroHud{
 	method image() = "assets/Meteors/meteorBrown_small2.png"
 	method chocar() {}
 	method esMeteoro() = false
-}
-
-class ObjetoInvisible{
-	var property position
-	method image(){
-		return "assets/vacio.png"
-	}
-	method limiteDelJuego(){
-		if(juego.todosMeteorosChocados()){
-			juego.clearGameOver()
-		}
-	}
-	
-	/*
-	 * La idea de este objeto es para solucionar el tema de que nos quedemos sin meteoros, mi idea era instanciar toda la primer fila
-	 * con objetos "invisibles" y cuando los meteoros choquen con esta, que corra el metodo de arriba y revise si todos los meteoros
-	 * principales fueron destruidos. Y si es asi que termine el juego. El metodo es medio rebuscado pero serviria.
-	 * Diganme si se les ocurre una idea mas sencilla.
-	 */
-	method meChocoLaNave(){}
 }

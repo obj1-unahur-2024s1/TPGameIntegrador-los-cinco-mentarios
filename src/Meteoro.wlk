@@ -73,14 +73,12 @@ class MeteoroGrande inherits Meteoro {
 	
 }
 
-class MeteorosAgregar5{
-	const meteoro1 = new MeteoroChico(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
-	const meteoro2 = new MeteoroMediano(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
-	const meteoro3 = new MeteoroMediano(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
-	const meteoro4 = new MeteoroGrande(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
-	const meteoro5 = new MeteoroGrande(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
-	
-	method meteoros(){
-		return [meteoro1,meteoro2,meteoro3,meteoro4,meteoro5]
+class MeteoroInvisible inherits Meteoro{
+	override method image(){
+		return "assets/vacio.png"
 	}
+	
+	override method chocar() {}
+	
+	override method esMeteoro() = false
 }

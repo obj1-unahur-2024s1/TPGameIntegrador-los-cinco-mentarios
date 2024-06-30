@@ -1,28 +1,7 @@
 import wollok.game.*
 import Otros.*	
-import Meteoro.*
 import Nave.*
-
-class Nivel1 {
-	const meteoro1 = new MeteoroChico(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
-	const meteoro2 = new MeteoroMediano(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
-	const meteoro3 = new MeteoroMediano(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
-	const meteoro4 = new MeteoroPequenio(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
-	
-	var property meteoros = [meteoro1, meteoro2, meteoro3, meteoro4]
-	var property numCantMeteoros = new Num (numero = 5, position = game.at(19,14))
-}
-
-class Nivel2 {
-	const meteoro1 = new MeteoroChico(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
-	const meteoro2 = new MeteoroChico(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
-	const meteoro3 = new MeteoroMediano(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
-	const meteoro4 = new MeteoroGrande(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
-	const meteoro5 = new MeteoroGrande(position = game.at(0.randomUpTo(18),5.randomUpTo(13)))
-	
-	var property meteoros = [meteoro1,meteoro2,meteoro3, meteoro4, meteoro5]
-	var property numCantMeteoros = new Num (numero = 9, position = game.at(19,14))
-}
+import Niveles.*
 
 object juego{
 	
@@ -44,6 +23,7 @@ object juego{
 	method loadVisuals(){		
 		game.addVisualCharacter(naveInicial)
 		nivelActual.meteoros().forEach({unMeteoro => game.addVisual(unMeteoro)})
+		nivelActual.meteorosInvisibles().forEach({unMeteoro => game.addVisual(unMeteoro)})
 		game.addVisual(numVidasNave)
 		game.addVisual(nivelActual.numCantMeteoros())
 		game.addVisual(xMenu1)
@@ -120,7 +100,7 @@ object juego{
 		if(naveInicial.vida() == 0){
 			self.clearGameOver()
 		}
-		if(nivelActual.numCantMeteoros().numero() == 0){
+		if(nivelActual.numCantMeteoros().numero() == 0 and not esNivel2){
 			nivelActual = new Nivel2()
 			esNivel2 = true
 			self.cargarNivel()
@@ -137,7 +117,9 @@ object juego{
 		game.clear()
 		sonidoJuego.stop()
 		game.schedule(100,{sonidoOutro.play()})
-		game.addVisual(gameOver)
+		if(self.quedanMeteorosConVida() and self.todosMeteorosChocados()){game.addVisual(gameOverMeteoros)}
+		if(naveInicial.vida() == 0){game.addVisual(gameOverVidas)}
+		if(esNivel2 and nivelActual.numCantMeteoros().numero() == 0){game.addVisual(gameOverGanaste)}
 	}
 	
 	method eliminarUnaVida(){

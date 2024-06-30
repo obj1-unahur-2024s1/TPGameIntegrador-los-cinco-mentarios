@@ -45,14 +45,3 @@ class Nave {
 	method esMeteoro() = false
 
 }
-
-class NaveInvisible inherits Nave{
-	
-	//Nave invisible para poder hacer lo de que choque con cualquier parte del meteoro como dijo el profe
-	//Haciendo que 3 naves invisibles esten al rededor de la principal
-	//Queda hacer todo el resto todavia
-	
-	override method image(){
-		return "assets/vacio.png"
-	}
-}

@@ -6,7 +6,7 @@ class Nave {
 	var property position = game.at(9, 0)	
 	
 	method image(){
-		return "assets/Naves/playerShip1_blue.png"
+		return "assets/Naves/playerShip1_blueR.png"
 	}
 	
 	method arriba(){

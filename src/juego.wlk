@@ -20,7 +20,8 @@ object juego{
 	const sonidoJuego = game.sound("assets/Effects/epic-game-music-by-kris-klavenes-3-mins-49771.mp3")
 	const sonidoOutro = game.sound("assets/Effects/game-music-loop-3-144252.mp3")	
 	
-	method loadVisuals(){		
+	method loadVisuals(){	
+		
 		game.addVisualCharacter(naveInicial)
 		nivelActual.meteoros().forEach({unMeteoro => game.addVisual(unMeteoro)})
 		nivelActual.meteorosInvisibles().forEach({unMeteoro => game.addVisual(unMeteoro)})
@@ -65,6 +66,7 @@ object juego{
 	
 	method cargarNivel() {
         game.clear()
+        nivelActual.iniciar()
         self.loadVisuals()
     }
     
@@ -73,6 +75,7 @@ object juego{
     	if(esNivel2){nivelActual = new Nivel2()} else {nivelActual = new Nivel1()}
     	numVidasNave = new Num(numero=3, position = game.at(2,14))
     	naveInicial.vida(3)
+    	nivelActual.iniciar()
         self.loadVisuals()
         self.loadKeys()
         self.loadComportamiento()

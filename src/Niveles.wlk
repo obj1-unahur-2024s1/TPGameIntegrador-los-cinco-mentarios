@@ -11,6 +11,19 @@ class Nivel1 {
 	var property meteoros = [meteoro1, meteoro2, meteoro3, meteoro4]
 	var property meteorosInvisibles = []
 	var property numCantMeteoros = new Num (numero = 5, position = game.at(19,14))
+	
+	method iniciar() {
+	    game.addVisual(imagenNivel1)
+	    game.schedule(2000, {game.removeVisual(imagenNivel1)})
+	}
+}
+
+object imagenNivel1{
+	var property position = game.at(7, 3)
+	
+	method image() = "assets/nivel1.png"
+	
+	method esMeteoro() = false
 }
 
 class Nivel2 {
@@ -34,4 +47,18 @@ class Nivel2 {
 	var property meteorosInvisibles = [meteoro4Invisible1 ,meteoro4Invisible2, 
 		meteoro4Invisible3, meteoro5Invisible1, meteoro5Invisible2, meteoro5Invisible3]
 	var property numCantMeteoros = new Num (numero = 9, position = game.at(19,14))
+	
+	method iniciar() {
+	    game.addVisual(imagenNivel2)
+	    game.schedule(2000, {game.removeVisual(imagenNivel2)})
+	}
+	
+}
+
+object imagenNivel2{
+	var property position = game.at(7, 3)
+	
+	method image() = "assets/nivel2.png"
+	
+	method esMeteoro() = false
 }

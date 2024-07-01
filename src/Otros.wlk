@@ -4,7 +4,7 @@ import juego.*
 object startGame{
 	var property position = game.at(2,2)
 	
-	method image() = "assets/startGame.png"
+	method image() = "assets/startGameFinalFill.png"
 }
 
 object gameOverGanaste{

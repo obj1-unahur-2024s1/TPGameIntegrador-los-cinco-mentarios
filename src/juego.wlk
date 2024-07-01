@@ -120,9 +120,19 @@ object juego{
 		game.clear()
 		sonidoJuego.stop()
 		game.schedule(100,{sonidoOutro.play()})
-		if(self.quedanMeteorosConVida() and self.todosMeteorosChocados()){game.addVisual(gameOverMeteoros)}
-		if(naveInicial.vida() == 0){game.addVisual(gameOverVidas)}
-		if(esNivel2 and nivelActual.numCantMeteoros().numero() == 0){game.addVisual(gameOverGanaste)}
+		if(esNivel2 and nivelActual.numCantMeteoros().numero() == 0){
+			game.addVisual(gameOverGanaste)
+		}
+		else
+		{
+			if(self.quedanMeteorosConVida() and self.todosMeteorosChocados()){
+				game.addVisual(gameOverMeteoros)
+			}
+			else
+			{
+				if(naveInicial.vida() == 0){game.addVisual(gameOverVidas)}
+			}
+		}
 	}
 	
 	method eliminarUnaVida(){

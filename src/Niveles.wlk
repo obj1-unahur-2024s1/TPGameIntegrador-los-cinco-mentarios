@@ -24,6 +24,8 @@ object imagenNivel1{
 	method image() = "assets/nivel1.png"
 	
 	method esMeteoro() = false
+	
+	method chocar() {}
 }
 
 class Nivel2 {
@@ -61,4 +63,6 @@ object imagenNivel2{
 	method image() = "assets/nivel2.png"
 	
 	method esMeteoro() = false
+	
+	method chocar() {}
 }

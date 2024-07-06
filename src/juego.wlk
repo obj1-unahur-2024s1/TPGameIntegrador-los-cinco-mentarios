@@ -36,6 +36,7 @@ object juego{
 	method loadKeys(){
 		keyboard.space().onPressDo{naveInicial.disparar()}
 		keyboard.r().onPressDo{self.reiniciarNivel()}
+		
 	}
 	
 	method loadComportamiento(){
@@ -102,6 +103,7 @@ object juego{
 	method finDelJuego(){
 		if(naveInicial.vida() == 0){
 			self.clearGameOver()
+			
 		}
 		if(nivelActual.numCantMeteoros().numero() == 0 and not esNivel2){
 			nivelActual = new Nivel2()
@@ -122,15 +124,18 @@ object juego{
 		game.schedule(100,{sonidoOutro.play()})
 		if(esNivel2 and nivelActual.numCantMeteoros().numero() == 0){
 			game.addVisual(gameOverGanaste)
+			
 		}
 		else
 		{
 			if(self.quedanMeteorosConVida() and self.todosMeteorosChocados()){
 				game.addVisual(gameOverMeteoros)
+				
 			}
 			else
 			{
 				if(naveInicial.vida() == 0){game.addVisual(gameOverVidas)}
+					
 			}
 		}
 	}
@@ -150,4 +155,9 @@ object juego{
 	method quitarUnMeteoro(){
 		nivelActual.numCantMeteoros((nivelActual.numCantMeteoros().avanzar()))
 	}
+	
+	method nivelActual(){return nivelActual}
+	
+	
+	
 }

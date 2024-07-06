@@ -78,7 +78,30 @@ class MeteoroInvisible inherits Meteoro{
 		return "assets/vacio.png"
 	}
 	
-	override method chocar() {}
+	override method chocar() {
+		const meteoroMediano = new MeteoroMediano(position = self.position())
+		const meteoroGrande1 = juego.nivelActual().meteoroGrande1()
+		const meteoroGrande2 = juego.nivelActual().meteoroGrande2()
+		
+        game.addVisual(meteoroMediano)
+        game.onTick(500, "meteoroPequenio", {meteoroMediano.abajo()})
+        game.schedule(7000, {if(game.hasVisual(meteoroMediano)){game.removeVisual(meteoroMediano)}})
+        game.say(self,"¡Me diste!")
+		sonidoRoturaMeteoro.play()
+		meDestruyeron = true
+		if (meteoroGrande1.contains(self)){
+			game.schedule(500, {meteoroGrande1.forEach{m=>game.removeVisual(m)}})
+			juego.quitarUnMeteoro()
+			juego.finDelJuego()
+        }
+        else{
+        	game.schedule(500, {meteoroGrande2.forEach{m=>game.removeVisual(m)}})
+			juego.quitarUnMeteoro()
+			juego.finDelJuego()
+        }
+        
+}		
+	
 	
 	override method esMeteoro() = false
 }

@@ -16,9 +16,7 @@ object juego{
 	
 	var todoCargado = false
 	
-	const sonidoIntro = game.sound("assets/Effects/game-music-loop-3-144252.mp3")
-	const sonidoJuego = game.sound("assets/Effects/epic-game-music-by-kris-klavenes-3-mins-49771.mp3")
-	const sonidoOutro = game.sound("assets/Effects/game-music-loop-3-144252.mp3")	
+	var sonidoActual
 	
 	method loadVisuals(){	
 		
@@ -60,7 +58,8 @@ object juego{
 		game.height(15)
 		game.boardGround("assets/background.png")
 		game.addVisual(startGame)
-		game.schedule(100,{sonidoIntro.play()})
+		sonidoActual = new SonidoIntro()
+		game.schedule(100,{sonidoActual.play()})
 		keyboard.enter().onPressDo{self.cargarTodo()}
 		game.start()
 	}
@@ -84,9 +83,10 @@ object juego{
 
     method cargarTodo() {
         if (not todoCargado) {
-            sonidoIntro.stop()
+            sonidoActual.stop()
             game.removeVisual(startGame)
-            sonidoJuego.play()
+            sonidoActual = new SonidoJuego()
+            sonidoActual.play()
             self.cargarNivel()
             self.loadKeys()
             self.loadComportamiento()
@@ -118,26 +118,46 @@ object juego{
 		}
 	}
 	
+	method reiniciarJuego(){
+		game.clear()
+		sonidoActual.stop()
+		sonidoActual = new SonidoJuego()
+		sonidoActual.play()
+		esNivel2 = false
+		nivelActual.iniciar()
+        self.loadVisuals()
+		self.loadKeys()
+		self.loadComportamiento()
+	}
+	
 	method clearGameOver(){
 		game.clear()
-		sonidoJuego.stop()
-		game.schedule(100,{sonidoOutro.play()})
+		sonidoActual.stop()
+		keyboard.r().onPressDo{self.reiniciarJuego()}
 		if(esNivel2 and nivelActual.numCantMeteoros().numero() == 0){
 			game.addVisual(gameOverGanaste)
-			
+			sonidoActual = new SonidoWin()
+			sonidoActual.play()
 		}
 		else
 		{
 			if(self.quedanMeteorosConVida() and self.todosMeteorosChocados()){
 				game.addVisual(gameOverMeteoros)
-				
+				sonidoActual = new SonidoOutro()
+				sonidoActual.play()
 			}
 			else
 			{
-				if(naveInicial.vida() == 0){game.addVisual(gameOverVidas)}
+				if(naveInicial.vida() == 0){
+					game.addVisual(gameOverVidas)
+					sonidoActual = new SonidoOutro()
+					sonidoActual.play()
+				}
 					
 			}
 		}
+		sonidoActual = new SonidoIntro()
+		sonidoActual.play()
 	}
 	
 	method eliminarUnaVida(){

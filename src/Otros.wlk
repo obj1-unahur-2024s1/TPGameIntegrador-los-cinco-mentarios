@@ -64,3 +64,48 @@ object meteoroHud{
 	method chocar() {}
 	method esMeteoro() = false
 }
+
+
+class SonidoIntro{
+	const sonido = game.sound("assets/Effects/game-music-loop-3-144252.mp3")
+	method play(){
+		sonido.play()
+	}
+	
+	method stop(){
+		sonido.stop()
+	}
+}
+
+class SonidoJuego{
+	const sonido = game.sound("assets/Effects/epic-game-music-by-kris-klavenes-3-mins-49771.mp3")
+	method play(){
+		sonido.play()
+	}
+	
+	method stop(){
+		sonido.stop()
+	}
+}
+
+class SonidoOutro{
+	const sonido = game.sound("assets/Effects/mixkit-retro-arcade-game-over-470.wav")
+	method play(){
+		sonido.play()
+	}
+	
+	method stop(){
+		sonido.stop()
+	}
+}
+
+class SonidoWin{
+	const sonido = game.sound("assets/Effects/success-1-6297.mp3")
+	method play(){
+		sonido.play()
+	}
+	
+	method stop(){
+		sonido.stop()
+	}
+}
